@@ -36,38 +36,38 @@
             <version>1.4.14</version>
         </dependency>
         
-        <!--GITHUB 의존성-->
+        <!-- Dotenv 의존성 -->
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
             <version>3.0.0</version>
         </dependency>
-    
     </dependencies>
 
     <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.5.2</version>
-            <executions>
-            <execution>
-            <phase>package</phase>
-            <goals>
-            <goal>shade</goal>
-            </goals>
-            <configuration>
-            <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>Main</mainClass>
-                </transformer>
-            </transformers>
-            </configuration>
-            </execution>
-            </executions>
-        </plugin>
-    </plugins>
+        <plugins>
+            <!-- Executable Fat JAR 생성 및 Main-Class 지정 플러그인 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.aram.bot.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
