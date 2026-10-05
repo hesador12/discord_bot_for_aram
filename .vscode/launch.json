@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.aram.bot.Main",
+            "projectName": "Bot_initial"
+        },
+        {
+            "type": "java",
+            "name": "DiscordBot",
+            "request": "launch",
+            "mainClass": "DiscordBot",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "DiscordBot",
+            "request": "launch",
+            "mainClass": "src.main.java.DiscordBot",
+            "projectName": "Bot_initial_ae414226"
+        },
+        {
+            "type": "java",
+            "name": "Run DiscordBot",
+            "request": "launch",
+            "mainClass": "src.main.java.DiscordBot",
+            "projectName": "Bot_initial"
+        }
+    ]
+}
