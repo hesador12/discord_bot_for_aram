@@ -95,7 +95,7 @@ public class DiscordListener extends ListenerAdapter {
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setTitle("🎲 칼바람 딜량 내기 정산 완료!");
-            embed.setColor(new Color(46, 204, 113));
+            embed.setColor(new Color(255, 228, 225));
 
             StringBuilder sb = new StringBuilder();
             sb.append("이번 게임 정산 결과가 장부에 저장되었습니다.\n\n");
@@ -147,7 +147,7 @@ public class DiscordListener extends ListenerAdapter {
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setTitle("💸 송금 확인 완료!");
-            embed.setColor(Color.CYAN);
+            embed.setColor(new Color(188,169,223));
             embed.addField("👤 이름", name, true);
             embed.addField("💰 송금액", "+" + formatMoney(payAmount) + "원", true);
             embed.addField("📉 변제 후 잔액", formatSignedMoney(currentAmount) + "원", false);
@@ -178,7 +178,7 @@ public class DiscordListener extends ListenerAdapter {
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setTitle("✅ 완납 처리 완료!");
-            embed.setColor(Color.GREEN);
+            embed.setColor(new Color(182,246,223));
             embed.setDescription("**`" + name + "`**님의 남은 정산액을 **0원**으로 완납 처리했습니다!");
 
             event.getChannel().sendMessageEmbeds(embed.build()).queue();
@@ -207,7 +207,7 @@ public class DiscordListener extends ListenerAdapter {
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setTitle("👤 멤버 등록 완료");
-            embed.setColor(Color.BLUE);
+            embed.setColor(new Color(182,246,223));
             embed.setDescription("**`" + name + "`**님이 정산 명단에 추가되었습니다 (기본 잔액: 0원).");
 
             event.getChannel().sendMessageEmbeds(embed.build()).queue();
@@ -256,7 +256,7 @@ public class DiscordListener extends ListenerAdapter {
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("📊 멤버별 정산 잔액 현황");
-        embed.setColor(Color.ORANGE);
+        embed.setColor(new Color(182,246,223));
 
         if (members.isEmpty()) {
             embed.setDescription("등록된 멤버가 없습니다. `!등록 [이름]` 명령어로 추가해 보세요.");
@@ -307,7 +307,7 @@ public class DiscordListener extends ListenerAdapter {
     // ----------------------------------------------------
     private void sendErrorEmbed(MessageReceivedEvent event, String description) {
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setColor(Color.RED);
+        embed.setColor(new Color(215,95,95));
         embed.setDescription(description);
         event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
