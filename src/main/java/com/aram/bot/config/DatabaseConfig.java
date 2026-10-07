@@ -7,26 +7,31 @@ import java.sql.Statement;
 
 public class DatabaseConfig {
 
-    public static Connection getConnection() throws SQLException {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.err.println("❌ PostgreSQL JDBC 드라이버 클래스를 찾을 수 없습니다.");
-            e.printStackTrace();
-        }
-
-        String dbUrl = System.getenv("DATABASE_URL");
-
-        if (dbUrl != null) {
-            if (dbUrl.startsWith("postgresql://")) {
-                dbUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
-            }
-        } else {
-            dbUrl = "jdbc:postgresql://postgres.khkvirrpbvyybvgwjvuc:skekrhdudgml@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true";
-        }
-
-        return DriverManager.getConnection(dbUrl);
+   public static Connection getConnection() throws SQLException {
+    try {
+        Class.forName("org.postgresql.Driver");
+    } catch (ClassNotFoundException e) {
+        System.err.println("❌ PostgreSQL JDBC 드라이버 클래스를 찾을 수 없습니다.");
+        e.printStackTrace();
     }
+
+    String dbUrl = System.getenv("DATABASE_URL");
+
+    if (dbUrl != null && !dbUrl.trim().isEmpty()) {
+        dbUrl = dbUrl.trim();
+        
+        if (dbUrl.startsWith("postgresql://")) {
+            dbUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
+        } 
+        else if (!dbUrl.startsWith("jdbc:postgresql://")) {
+            dbUrl = "jdbc:postgresql://" + dbUrl;
+        }
+    } else {
+        dbUrl = "jdbc:postgresql://postgres.khkvirrpbvyybvgwjvuc:skekrhdudgml@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true";
+    }
+
+    return DriverManager.getConnection(dbUrl);
+}
 
     public static void initDatabase() {
         String createTableSql = "CREATE TABLE IF NOT EXISTS settlement (" +
