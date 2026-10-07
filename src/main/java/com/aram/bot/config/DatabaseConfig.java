@@ -17,20 +17,36 @@ public class DatabaseConfig {
 
         String dbUrl = System.getenv("DATABASE_URL");
 
-        if (dbUrl != null && !dbUrl.trim().isEmpty()) {
+        if (dbUrl == null || dbUrl.trim().isEmpty()) {
+            dbUrl = "jdbc:postgresql://db.khkvirrpbvyybvgwjvuc.supabase.co:5432/postgres?user=postgres&password=skekrhdudgml";
+        } else {
             dbUrl = dbUrl.trim();
-            
             if (dbUrl.startsWith("postgresql://")) {
                 dbUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
-            } 
-            else if (!dbUrl.startsWith("jdbc:postgresql://")) {
+            } else if (!dbUrl.startsWith("jdbc:postgresql://")) {
                 dbUrl = "jdbc:postgresql://" + dbUrl;
             }
-        } else {
-            dbUrl = "jdbc:postgresql://postgres.khkvirrpbvyybvgwjvuc:skekrhdudgml@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true";
+
+            if (dbUrl.contains("@")) {
+                try {
+                    String prefix = "jdbc:postgresql://";
+                    String content = dbUrl.substring(prefix.length());
+                    String[] userPassAndRest = content.split("@", 2);
+                    String[] userAndPass = userPassAndRest[0].split(":", 2);
+
+                    String user = userAndPass[0];
+                    String pass = userAndPass.length > 1 ? userAndPass[1] : "";
+                    String rest = userPassAndRest[1];
+
+                    String delimiter = rest.contains("?") ? "&" : "?";
+                    dbUrl = prefix + rest + delimiter + "user=" + user + "&password=" + pass;
+                } catch (Exception e) {
+                    System.err.println("⚠️ URL 파싱 중 오류 발생 (기본 URL 유지): " + e.getMessage());
+                }
+            }
         }
 
-        System.out.println("🔗 [DB 접속 시도 URL]: " + dbUrl);
+        System.out.println("🔗 [DB 변환 후 접속 URL]: " + dbUrl);
 
         return DriverManager.getConnection(dbUrl);
     }
