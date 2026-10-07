@@ -8,24 +8,27 @@ import java.sql.Statement;
 public class DatabaseConfig {
 
     public static Connection getConnection() throws SQLException {
-        // Render의 DATABASE_URL 환경 변수 읽기
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("❌ PostgreSQL JDBC 드라이버 클래스를 찾을 수 없습니다.");
+            e.printStackTrace();
+        }
+
         String dbUrl = System.getenv("DATABASE_URL");
 
         if (dbUrl != null) {
-            // postgresql:// 로 시작하는 주소를 JDBC 표준인 jdbc:postgresql:// 로 변환
             if (dbUrl.startsWith("postgresql://")) {
                 dbUrl = dbUrl.replace("postgresql://", "jdbc:postgresql://");
             }
         } else {
-            // 로컬 테스트용 (Supabase Connection String의 [YOUR-PASSWORD]를 실제 비밀번호로 교체하여 넣으세요)
-            dbUrl = "jdbc:postgresql://postgres.khkvirrpbvyybvgwjvuc:실제비밀번호@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true";
+            dbUrl = "jdbc:postgresql://postgres.khkvirrpbvyybvgwjvuc:skekrhdudgml@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true";
         }
 
         return DriverManager.getConnection(dbUrl);
     }
 
     public static void initDatabase() {
-        // PostgreSQL 테이블 생성 SQL (TEXT -> VARCHAR(100))
         String createTableSql = "CREATE TABLE IF NOT EXISTS settlement (" +
                 "name VARCHAR(100) PRIMARY KEY, " +
                 "amount INTEGER NOT NULL DEFAULT 0" +
